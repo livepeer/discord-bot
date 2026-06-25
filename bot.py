@@ -102,7 +102,11 @@ class ModeratorClient(discord.Client):
             return
 
         description = build_flag_description(
-            content, RULES_URL, PR_URL, mention=message.author.mention
+            content,
+            RULES_URL,
+            PR_URL,
+            mention=message.author.mention,
+            rule=decision.rule,
         )
         embed = discord.Embed(description=description)
 
