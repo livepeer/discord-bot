@@ -18,10 +18,15 @@ def _quote_block(text: str) -> str:
     return "\n".join(("> " + line) if line else ">" for line in text.split("\n"))
 
 
-def flag_line(rules_url: str, pr_url: str) -> str:
-    """The fixed public flag text, with 'community rules' and 'PR here' hyperlinked."""
+def flag_line(rules_url: str, pr_url: str, mention: str = "") -> str:
+    """The fixed public flag text, with 'community rules' and 'PR here' hyperlinked.
+
+    When ``mention`` is given (e.g. a Discord ``<@id>`` mention), it is prepended so
+    the warning explicitly tags the original author: ``@X This message does not …``.
+    """
+    prefix = f"{mention} " if mention else ""
     return (
-        f"This message does not align with our [community rules]({rules_url}). "
+        f"{prefix}This message does not align with our [community rules]({rules_url}). "
         f"If you think this was flagged mistakenly, please submit a [PR here]({pr_url})"
     )
 
@@ -30,15 +35,17 @@ def build_flag_description(
     content: str,
     rules_url: str,
     pr_url: str,
+    mention: str = "",
     max_len: int = EMBED_DESCRIPTION_LIMIT,
 ) -> str:
     """Build the embed description: quoted offending message + fixed flag text.
 
     Includes the whole message when possible; truncates only the quote (with an
-    ellipsis) when the full description would exceed ``max_len``.
+    ellipsis) when the full description would exceed ``max_len``. ``mention`` is
+    prepended to the flag text so the warning explicitly tags the original author.
     """
     content = content or ""
-    flag = flag_line(rules_url, pr_url)
+    flag = flag_line(rules_url, pr_url, mention)
     sep = "\n\n"
 
     full = _quote_block(content) + sep + flag

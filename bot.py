@@ -99,7 +99,9 @@ class ModeratorClient(discord.Client):
         if not decision.out_of_line:
             return
 
-        description = build_flag_description(content, RULES_URL, PR_URL)
+        description = build_flag_description(
+            content, RULES_URL, PR_URL, mention=message.author.mention
+        )
         embed = discord.Embed(description=description)
 
         if DRY_RUN:
@@ -109,7 +111,7 @@ class ModeratorClient(discord.Client):
             )
             return
         try:
-            await message.reply(embed=embed, mention_author=False)
+            await message.reply(embed=embed, mention_author=True)
         except discord.DiscordException as exc:
             logger.warning("failed to post flag: %s", type(exc).__name__)
 
