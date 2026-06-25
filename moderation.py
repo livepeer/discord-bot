@@ -91,7 +91,7 @@ async def evaluate_message(
     base_url: str,
     model: str,
     api_key: str,
-    max_tokens: int = 1024,
+    max_tokens: int = 4096,
     timeout: float = 30.0,
 ) -> Decision:
     """Ask BlueClaw whether ``content`` is out of line. Fails open on any error.

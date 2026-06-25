@@ -44,7 +44,7 @@ DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN", "")
 BLUECLAW_BASE_URL = os.getenv("BLUECLAW_BASE_URL", "https://openai.blueclaw.network/v1")
 BLUECLAW_MODEL = os.getenv("BLUECLAW_MODEL", "Qwen3.6-27B")
 BLUECLAW_API_KEY = os.getenv("BLUECLAW_API_KEY", "")
-BLUECLAW_MAX_TOKENS = int(os.getenv("BLUECLAW_MAX_TOKENS", "1024"))
+BLUECLAW_MAX_TOKENS = int(os.getenv("BLUECLAW_MAX_TOKENS", "4096"))
 RULES_URL = os.getenv(
     "RULES_URL", "https://github.com/livepeer/discord-bot/blob/main/rules.md"
 )
