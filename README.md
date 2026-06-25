@@ -1,9 +1,9 @@
 # Discord Community Moderation Bot
 
 A lean, experimental Discord bot that reads messages in channels it can access,
-classifies each one against your community rules using the BlueClaw
-(OpenAI-compatible) API, and replies to violations with an embed quoting the
-message and a fixed flag notice.
+classifies each one against your community rules using the
+[BlueClaw](https://blueclaw.network) (OpenAI-compatible) API, and replies to
+violations with an embed quoting the message and a fixed flag notice.
 
 When flagged, the bot replies with an embed:
 
@@ -29,6 +29,13 @@ cp .env.example .env   # then fill in the values
 
 In the Discord Developer Portal, enable the **Message Content Intent** (privileged)
 and invite the bot with Read Messages + Send Messages permissions.
+
+### BlueClaw API key
+The classifier runs on [BlueClaw](https://blueclaw.network), which exposes an
+OpenAI-compatible endpoint. To try the bot, sign up at
+[blueclaw.network](https://blueclaw.network), create an API key from your account
+dashboard, and put it in `.env` as `BLUECLAW_API_KEY` (with `BLUECLAW_BASE_URL`
+pointing at the endpoint shown there). The key is kept out of git and never logged.
 
 ## Configuration (`.env`)
 | Var | Purpose |
