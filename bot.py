@@ -51,6 +51,7 @@ RULES_URL = os.getenv(
 PR_URL = os.getenv("PR_URL", "https://github.com/livepeer/discord-bot")
 DRY_RUN = _bool_env("DRY_RUN", True)
 MIN_MESSAGE_CHARS = int(os.getenv("MIN_MESSAGE_CHARS", "1"))
+CONTEXT_MESSAGE_COUNT = int(os.getenv("CONTEXT_MESSAGE_COUNT", "4"))
 CHANNEL_IDS = {
     int(c) for c in os.getenv("CHANNEL_IDS", "").replace(" ", "").split(",") if c
 }
@@ -77,6 +78,31 @@ class ModeratorClient(discord.Client):
     async def on_ready(self) -> None:
         logger.info("Logged in as %s (dry_run=%s)", self.user, DRY_RUN)
 
+    async def _prior_message_context(self, message: discord.Message) -> list[str]:
+        """Return up to the last configured human messages before ``message``."""
+        if CONTEXT_MESSAGE_COUNT <= 0:
+            return []
+        context: list[str] = []
+        try:
+            async for prior in message.channel.history(
+                limit=CONTEXT_MESSAGE_COUNT * 3,
+                before=message,
+                oldest_first=False,
+            ):
+                if prior.author.bot:
+                    continue
+                content = (prior.content or "").strip()
+                if not content:
+                    continue
+                author = getattr(prior.author, "display_name", str(prior.author))
+                context.append(f"{author}: {content}")
+                if len(context) >= CONTEXT_MESSAGE_COUNT:
+                    break
+        except discord.DiscordException as exc:
+            logger.warning("failed to fetch prior message context: %s", type(exc).__name__)
+            return []
+        return list(reversed(context))
+
     async def on_message(self, message: discord.Message) -> None:
         # Skip self, other bots, DMs, and empty/too-short messages.
         if message.author == self.user or message.author.bot:
@@ -89,6 +115,7 @@ class ModeratorClient(discord.Client):
         if CHANNEL_IDS and message.channel.id not in CHANNEL_IDS:
             return
 
+        context_messages = await self._prior_message_context(message)
         decision = await evaluate_message(
             content,
             RULES,
@@ -96,6 +123,7 @@ class ModeratorClient(discord.Client):
             base_url=BLUECLAW_BASE_URL,
             model=BLUECLAW_MODEL,
             api_key=BLUECLAW_API_KEY,
+            context_messages=context_messages,
             max_tokens=BLUECLAW_MAX_TOKENS,
         )
         if not decision.out_of_line:

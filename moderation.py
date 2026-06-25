@@ -21,8 +21,10 @@ logger = logging.getLogger(__name__)
 SYSTEM_PROMPT = """/no_think
 You are a Discord community moderation classifier.
 
-You are given the community rules and a single user message. Decide whether the
-message violates the rules. Do not deliberate or explain your reasoning.
+You are given the community rules, up to four prior messages for conversation
+context, and a single current user message to judge. Use the prior messages only
+to understand references, target, and intent. Decide whether the current message
+violates the rules. Do not deliberate or explain your reasoning.
 
 Respond with ONLY a single JSON object and nothing else. No prose, no code fences.
 Schema:
@@ -36,6 +38,16 @@ Community rules:
 {rules}
 ---"""
 
+USER_PROMPT = """Conversation context before the message, oldest to newest:
+---
+{context}
+---
+
+Current message to judge:
+---
+{content}
+---"""
+
 _FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL | re.IGNORECASE)
 _OBJECT_RE = re.compile(r"\{.*\}", re.DOTALL)
 
@@ -47,10 +59,11 @@ class Decision:
     error: bool = False
 
 
-def build_messages(rules: str, content: str) -> list[dict]:
+def build_messages(rules: str, content: str, context_messages: list[str] | None = None) -> list[dict]:
+    context = "\n".join(context_messages or []) or "(none)"
     return [
         {"role": "system", "content": SYSTEM_PROMPT.format(rules=rules)},
-        {"role": "user", "content": content},
+        {"role": "user", "content": USER_PROMPT.format(context=context, content=content)},
     ]
 
 
@@ -91,6 +104,7 @@ async def evaluate_message(
     base_url: str,
     model: str,
     api_key: str,
+    context_messages: list[str] | None = None,
     max_tokens: int = 4096,
     timeout: float = 30.0,
 ) -> Decision:
@@ -102,7 +116,7 @@ async def evaluate_message(
     """
     payload = {
         "model": model,
-        "messages": build_messages(rules, content),
+        "messages": build_messages(rules, content, context_messages=context_messages),
         "temperature": 0,
         "max_tokens": max_tokens,
     }

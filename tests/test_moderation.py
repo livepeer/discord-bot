@@ -35,18 +35,34 @@ def test_build_messages_includes_no_think_and_rules():
     assert msgs[0]["role"] == "system"
     assert "/no_think" in msgs[0]["content"]
     assert "RULE-X: no spam" in msgs[0]["content"]
-    assert msgs[1] == {"role": "user", "content": "hi"}
+    assert msgs[1]["role"] == "user"
+    assert "Conversation context before the message" in msgs[1]["content"]
+    assert "(none)" in msgs[1]["content"]
+    assert "Current message to judge" in msgs[1]["content"]
+    assert "hi" in msgs[1]["content"]
 
 
-def test_evaluate_sends_max_tokens_in_payload():
+def test_build_messages_includes_prior_context():
+    msgs = build_messages("rules", "current", context_messages=["alice: first", "bob: second"])
+    user_prompt = msgs[1]["content"]
+    assert "alice: first" in user_prompt
+    assert "bob: second" in user_prompt
+    assert "current" in user_prompt
+
+
+def test_evaluate_sends_max_tokens_and_context_in_payload():
     client = _FakeClient('{"out_of_line": true, "rule": "spam"}')
     decision = asyncio.run(
         evaluate_message(
             "buy now", "rules", client=client,
             base_url="https://x/v1", model="Qwen3.6-27B", api_key="k", max_tokens=777,
+            context_messages=["alice: previous"],
         )
     )
+    assert client.last_payload is not None
     assert client.last_payload["max_tokens"] == 777
+    assert "alice: previous" in client.last_payload["messages"][1]["content"]
+    assert "buy now" in client.last_payload["messages"][1]["content"]
     assert decision.out_of_line is True
 
 

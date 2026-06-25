@@ -1,0 +1,112 @@
+name: Moderation rule feedback
+description: Report a false positive, false negative, or unclear moderation rule behavior.
+title: "[Moderation]: "
+labels: ["moderation", "rules", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the moderation rules.
+
+        Use this template when a message was flagged incorrectly, was not flagged but should have been, or exposed unclear rule behavior. Please provide evidence, examples, and your suggested fix.
+
+        Do not include private information, secrets, or unrelated personal details. Redact sensitive data while preserving the wording needed to understand the moderation decision.
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: What happened?
+      options:
+        - False positive — message was flagged but should have passed
+        - False negative — message was not flagged but should have been flagged
+        - Unclear rule behavior
+        - Suggested rule improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: message
+    attributes:
+      label: Message example
+      description: Paste the exact message text, or a redacted version that preserves the moderation-relevant wording.
+      placeholder: |
+        Example message:
+        "..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Conversation context
+      description: Include the few messages before it if they affect the target, intent, or meaning.
+      placeholder: |
+        Previous messages, oldest to newest:
+        1. ...
+        2. ...
+        3. ...
+        4. ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual moderation result
+      description: What did the bot/model do?
+      placeholder: |
+        It was flagged / not flagged.
+        Model rule/notice if available: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected moderation result
+      description: What should have happened instead?
+      placeholder: |
+        It should have passed because...
+        or
+        It should have been flagged because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and reasoning
+      description: Explain why, referring to the relevant part of rules.md when possible.
+      placeholder: |
+        Relevant rule section:
+        Why this is a false positive/false negative:
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: Proposed rules.md fix
+      description: Suggest exact wording or describe the rule change. If you plan to open a PR, mention that here.
+      placeholder: |
+        Proposed change:
+        ...
+
+        PR plan:
+        ...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I included an example message and enough context to evaluate it.
+          required: true
+        - label: I explained why the current result is wrong or unclear.
+          required: true
+        - label: I redacted private/sensitive information where needed.
+          required: true
+        - label: If I am proposing a fix, I will open or link a PR that updates rules.md.
+          required: false

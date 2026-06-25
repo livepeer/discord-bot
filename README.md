@@ -50,6 +50,7 @@ pointing at the endpoint shown there). The key is kept out of git and never logg
 | `DRY_RUN` | `true` logs the would-be flag instead of posting. |
 | `CHANNEL_IDS` | Comma-separated allowlist. Empty = all visible channels. |
 | `MIN_MESSAGE_CHARS` | Skip messages shorter than this. |
+| `CONTEXT_MESSAGE_COUNT` | Previous human channel messages to include as context for each moderation check (default `4`). |
 | `LOG_LEVEL` | `INFO` / `DEBUG` / ... |
 
 Edit `rules.md` to change moderation behavior — its full text is injected into the
@@ -65,11 +66,27 @@ Start with `DRY_RUN=true` to watch decisions in the logs before posting anything
 - **Fail-open:** any API or JSON-parse error is treated as "not out of line", so the
   bot never blocks or spams on errors.
 - **Skips:** its own messages, other bots, DMs, and empty/too-short messages.
+- **Conversation context:** each moderation call includes up to `CONTEXT_MESSAGE_COUNT`
+  previous human messages from the same channel, oldest-to-newest, plus the current
+  message being judged.
 - **No structured-output dependency:** the classifier is prompted for strict JSON and
   parsed defensively (direct / fenced / first-object); non-boolean verdicts are rejected.
 - **Qwen3 reasoning:** the prompt prepends `/no_think` to suppress chain-of-thought and
   `BLUECLAW_MAX_TOKENS` (default 4096) leaves headroom so the JSON is never truncated.
 - **No secret logging:** the API key is never written to logs.
+
+## Contributing moderation feedback
+
+If the bot flags a message incorrectly, or misses a message that should have been
+flagged, please open a moderation rule feedback issue with:
+
+- the message example
+- the prior conversation context, if relevant
+- what happened vs. what you expected
+- evidence and reasoning tied to `rules.md`
+- a proposed rule fix, ideally followed by a PR updating `rules.md`
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Tests
 ```bash
