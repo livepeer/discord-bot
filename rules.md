@@ -145,6 +145,25 @@ RULE 6 — SWEARING AIMED AT A PERSON.
   Fine: "this is f***ing cool"; "that release was a damn mess" (about the thing); relaxed
     off-topic banter no one objects to.
 
+RULE 7 — LIVEPEER INC. IMPERSONATION IS AN IMMEDIATE BAN.
+  Out of line: posing as Livepeer Inc., the Foundation, the core team, staff, official
+    support, or any official account. This includes a matching username, matching nickname,
+    matching avatar, fake "support" handle, or claim of official authority. This is the most
+    dangerous impersonation because it sets up phishing, wallet-access requests, and
+    fake-support scams. This rule overlaps with Rule 4 when a malicious link is involved.
+  Examples:
+    - "C R E A T E T I C K E T B E L O W F O R S U P P 0 R T," posing as official support.
+    - Setting a nickname and avatar to mimic a known core team member, then DMing members.
+    - An "Official Livepeer Support" handle asking users to "verify" their wallet.
+    - "I'm from the Livepeer team, send me your seed phrase so I can fix your node."
+  Fine:
+    - A real team member identified by their verified role. Check their roles and user ID to
+      verify.
+    - "I don't work for Livepeer, but I can help you troubleshoot." This disclaims any
+      official status.
+    - A community or fan project clearly labeled as unofficial.
+  Moderator action: immediate ban.
+
 RULE 8 — NSFW / DISTURBING CONTENT.
   Out of line: nudity, sexual or pornographic material, sexual mockery, graphic violence,
     gore, or content meant to disturb — in text, links, embeds, avatars, or reactions; a
