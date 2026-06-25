@@ -38,6 +38,8 @@ A good PR should:
 - Avoid adding one-off wording that only handles a single example unless that wording generalizes clearly.
 - Update docs/tests only when the behavior or code changes require it.
 
+Before a moderation rule PR is merged, at least two other known community members must review it, approve it, and comment their support on the PR.
+
 ## Code changes
 
 For code changes, keep the bot lean and fail-open:
