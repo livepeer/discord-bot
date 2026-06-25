@@ -45,8 +45,8 @@ pointing at the endpoint shown there). The key is kept out of git and never logg
 | `BLUECLAW_MODEL` | `Qwen3.6-27B` |
 | `BLUECLAW_API_KEY` | BlueClaw key. Kept out of git; never logged. |
 | `BLUECLAW_MAX_TOKENS` | Completion budget (default `1024`). Qwen3 spends tokens reasoning — too low truncates the reply to `null` before any JSON. |
-| `RULES_URL` | Link target for "community rules". |
-| `PR_URL` | Link target for "PR here". |
+| `RULES_URL` | Link target for "community rules". Defaults to `rules.md` on GitHub. |
+| `PR_URL` | Link target for "PR here". Defaults to the GitHub repo. |
 | `DRY_RUN` | `true` logs the would-be flag instead of posting. |
 | `CHANNEL_IDS` | Comma-separated allowlist. Empty = all visible channels. |
 | `MIN_MESSAGE_CHARS` | Skip messages shorter than this. |

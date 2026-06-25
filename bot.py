@@ -45,8 +45,10 @@ BLUECLAW_BASE_URL = os.getenv("BLUECLAW_BASE_URL", "https://openai.blueclaw.netw
 BLUECLAW_MODEL = os.getenv("BLUECLAW_MODEL", "Qwen3.6-27B")
 BLUECLAW_API_KEY = os.getenv("BLUECLAW_API_KEY", "")
 BLUECLAW_MAX_TOKENS = int(os.getenv("BLUECLAW_MAX_TOKENS", "1024"))
-RULES_URL = os.getenv("RULES_URL", "")
-PR_URL = os.getenv("PR_URL", "")
+RULES_URL = os.getenv(
+    "RULES_URL", "https://github.com/livepeer/discord-bot/blob/main/rules.md"
+)
+PR_URL = os.getenv("PR_URL", "https://github.com/livepeer/discord-bot")
 DRY_RUN = _bool_env("DRY_RUN", True)
 MIN_MESSAGE_CHARS = int(os.getenv("MIN_MESSAGE_CHARS", "1"))
 CHANNEL_IDS = {
