@@ -42,7 +42,7 @@ def _load_rules(path: str = "rules.md") -> str:
 # --- Config (read once at startup) ---------------------------------------------
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN", "")
 BLUECLAW_BASE_URL = os.getenv("BLUECLAW_BASE_URL", "https://openai.blueclaw.network/v1")
-BLUECLAW_MODEL = os.getenv("BLUECLAW_MODEL", "Qwen3.6-27B")
+BLUECLAW_MODEL = os.getenv("BLUECLAW_MODEL", "Qwen/Qwen3.6-35B-A3B-FP8")
 BLUECLAW_API_KEY = os.getenv("BLUECLAW_API_KEY", "")
 BLUECLAW_MAX_TOKENS = int(os.getenv("BLUECLAW_MAX_TOKENS", "4096"))
 RULES_URL = os.getenv(

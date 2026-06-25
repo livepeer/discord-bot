@@ -55,7 +55,7 @@ def test_evaluate_sends_max_tokens_and_context_in_payload():
     decision = asyncio.run(
         evaluate_message(
             "buy now", "rules", client=client,
-            base_url="https://x/v1", model="Qwen3.6-27B", api_key="k", max_tokens=777,
+            base_url="https://x/v1", model="Qwen/Qwen3.6-35B-A3B-FP8", api_key="k", max_tokens=777,
             context_messages=["alice: previous"],
         )
     )
@@ -72,7 +72,7 @@ def test_evaluate_fails_open_when_content_truncated_to_null():
     decision = asyncio.run(
         evaluate_message(
             "anything", "rules", client=client,
-            base_url="https://x/v1", model="Qwen3.6-27B", api_key="k",
+            base_url="https://x/v1", model="Qwen/Qwen3.6-35B-A3B-FP8", api_key="k",
         )
     )
     assert decision.out_of_line is False and decision.error is True

@@ -42,7 +42,7 @@ pointing at the endpoint shown there). The key is kept out of git and never logg
 |-----|---------|
 | `DISCORD_BOT_TOKEN` | Bot token. Required to run live. |
 | `BLUECLAW_BASE_URL` | `https://openai.blueclaw.network/v1` |
-| `BLUECLAW_MODEL` | `Qwen3.6-27B` |
+| `BLUECLAW_MODEL` | `Qwen/Qwen3.6-35B-A3B-FP8` |
 | `BLUECLAW_API_KEY` | BlueClaw key. Kept out of git; never logged. |
 | `BLUECLAW_MAX_TOKENS` | Completion budget (default `4096`). Qwen3 spends tokens reasoning — too low truncates the reply to `null` before any JSON, especially with long rule sets. |
 | `RULES_URL` | Link target for "community rules". Defaults to `rules.md` on GitHub. |
